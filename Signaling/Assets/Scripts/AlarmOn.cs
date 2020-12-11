@@ -10,23 +10,23 @@ public class AlarmOn : MonoBehaviour
 
     private float _runningTime;
     private float _normalizedRunningTime;
-    private bool _VolumeIsNotFull = false;
+    private bool _volumeIsNotFull = false;
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (collision.TryGetComponent<Player>(out Player player))
+        if (collision.TryGetComponent<Movement>(out Movement player))
         {
             if (!_audioSource.isPlaying)
             {
                 _audioSource.Play();
-                _VolumeIsNotFull = true;
+                _volumeIsNotFull = true;
             }
         }
     }
 
     private void Update()
     {
-        if (_audioSource.isPlaying && _VolumeIsNotFull)
+        if (_audioSource.isPlaying && _volumeIsNotFull)
         {
             _runningTime += Time.deltaTime;
             _normalizedRunningTime = _runningTime / _duration;
@@ -34,7 +34,7 @@ public class AlarmOn : MonoBehaviour
 
             if(_audioSource.volume == 1)
             {
-                _VolumeIsNotFull = false;
+                _volumeIsNotFull = false;
                 _runningTime = 0;
                 _normalizedRunningTime = 0;
             }

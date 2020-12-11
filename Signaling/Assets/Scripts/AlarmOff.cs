@@ -13,7 +13,7 @@ public class AlarmOff : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (collision.TryGetComponent<Player>(out Player player) && _audioSource.isPlaying)
+        if (collision.TryGetComponent<Movement>(out Movement player) && _audioSource.isPlaying)
         {
             _needToOff = true;
         }

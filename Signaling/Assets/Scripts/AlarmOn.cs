@@ -2,32 +2,25 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class AlarmOn : MonoBehaviour
+public class AlarmOn : Alarm
 {
-    [SerializeField] private AudioSource _audioSource;
-    [SerializeField] private float _duration;
-    [SerializeField] private AlarmOff _alarmOff;
-
-    public Coroutine VolumeIncreaseCoroutine;
-
-    private void OnTriggerEnter2D(Collider2D collision)
+    protected override IEnumerator ChangeVolume()
     {
-        if (collision.TryGetComponent<Movement>(out Movement player))
+        AudioSource.Play();
+        while (RunningTime < Duration)
         {
-             if (_alarmOff.VolumeDecreaseCoroutine != null)
-                 StopCoroutine(_alarmOff.VolumeDecreaseCoroutine);
-             VolumeIncreaseCoroutine = StartCoroutine(VolumeIncrease());       
+            RunningTime += Time.deltaTime;
+            AudioSource.volume = RunningTime / Duration;
+            yield return null;
         }
     }
 
-    private IEnumerator VolumeIncrease()
+    protected override void OnTriggerEnter2D(Collider2D collision)
     {
-        _audioSource.Play();
-
-        for (float _runningTime = _audioSource.volume; _runningTime < _duration; _runningTime += Time.deltaTime)
+        if (collision.TryGetComponent<Movement>(out Movement player) && !AudioSource.isPlaying)
         {
-            _audioSource.volume = _runningTime / _duration;
-            yield return null;
+            AnotherAlarm.StopChangeVolumeCoroutine();
+            ChangeVolumeCoroutine = StartCoroutine(ChangeVolume());
         }
     }
 }

@@ -849,7 +849,7 @@ GameObject:
   - component: {fileID: 1297065959}
   - component: {fileID: 1297065958}
   - component: {fileID: 1297065957}
-  - component: {fileID: 1297065956}
+  - component: {fileID: 1297065955}
   m_Layer: 0
   m_Name: AlarmOn
   m_TagString: Untagged
@@ -857,7 +857,7 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &1297065956
+--- !u!114 &1297065955
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -866,11 +866,9 @@ MonoBehaviour:
   m_GameObject: {fileID: 1297065954}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 088967470978f75448466372e625b5d4, type: 3}
+  m_Script: {fileID: 11500000, guid: 6b8c57fdb91d1c74eb301a2d954fc002, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _audioSource: {fileID: 932609713}
-  _duration: 2
 --- !u!61 &1297065957
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -1002,11 +1000,9 @@ MonoBehaviour:
   m_GameObject: {fileID: 1565796966}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b2465cbad3d8d354d8914395132b8b3d, type: 3}
+  m_Script: {fileID: 11500000, guid: 6b8c57fdb91d1c74eb301a2d954fc002, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _audioSource: {fileID: 932609713}
-  _duration: 1
 --- !u!61 &1565796970
 BoxCollider2D:
   m_ObjectHideFlags: 0

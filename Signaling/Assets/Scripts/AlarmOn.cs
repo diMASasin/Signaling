@@ -4,40 +4,30 @@ using UnityEngine;
 
 public class AlarmOn : MonoBehaviour
 {
-
     [SerializeField] private AudioSource _audioSource;
     [SerializeField] private float _duration;
+    [SerializeField] private AlarmOff _alarmOff;
 
-    private float _runningTime;
-    private float _normalizedRunningTime;
-    private bool _volumeIsNotFull = false;
+    public Coroutine VolumeIncreaseCoroutine;
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
         if (collision.TryGetComponent<Movement>(out Movement player))
         {
-            if (!_audioSource.isPlaying)
-            {
-                _audioSource.Play();
-                _volumeIsNotFull = true;
-            }
+             if (_alarmOff.VolumeDecreaseCoroutine != null)
+                 StopCoroutine(_alarmOff.VolumeDecreaseCoroutine);
+             VolumeIncreaseCoroutine = StartCoroutine(VolumeIncrease());       
         }
     }
 
-    private void Update()
+    private IEnumerator VolumeIncrease()
     {
-        if (_audioSource.isPlaying && _volumeIsNotFull)
-        {
-            _runningTime += Time.deltaTime;
-            _normalizedRunningTime = _runningTime / _duration;
-            _audioSource.volume = _normalizedRunningTime;
+        _audioSource.Play();
 
-            if(_audioSource.volume == 1)
-            {
-                _volumeIsNotFull = false;
-                _runningTime = 0;
-                _normalizedRunningTime = 0;
-            }
+        for (float _runningTime = _audioSource.volume; _runningTime < _duration; _runningTime += Time.deltaTime)
+        {
+            _audioSource.volume = _runningTime / _duration;
+            yield return null;
         }
     }
 }

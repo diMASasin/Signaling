@@ -6,34 +6,27 @@ public class AlarmOff : MonoBehaviour
 {
     [SerializeField] private AudioSource _audioSource;
     [SerializeField] private float _duration;
+    [SerializeField] private AlarmOn _alarmOn;
 
-    private float _runningTime;
-    private float _normalizedRunningTime;
-    private bool _needToOff = false;
+    public Coroutine VolumeDecreaseCoroutine;
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
         if (collision.TryGetComponent<Movement>(out Movement player) && _audioSource.isPlaying)
         {
-            _needToOff = true;
+             if (_alarmOn.VolumeIncreaseCoroutine != null)
+                 StopCoroutine(_alarmOn.VolumeIncreaseCoroutine);
+             VolumeDecreaseCoroutine = StartCoroutine(VolumeDecrease());
         }
     }
 
-    public void Update()
-    {
-        if(_audioSource.isPlaying && _needToOff)
+    private IEnumerator VolumeDecrease()
+    { 
+        for (float _runningTime = _audioSource.volume; _runningTime > 0; _runningTime -= Time.deltaTime)
         {
-            _runningTime += Time.deltaTime;
-            _normalizedRunningTime = _runningTime / _duration;
-            _audioSource.volume = 1 - _normalizedRunningTime;
-
-            if (_audioSource.volume == 0)
-            {
-                _audioSource.Stop();
-                _runningTime = 0;
-                _normalizedRunningTime = 0;
-                _needToOff = false;
-            }
+            _audioSource.volume = _runningTime / _duration;
+            yield return null;
         }
+        _audioSource.Stop();
     }
 }
